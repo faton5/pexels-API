@@ -36,12 +36,20 @@ def handle_response(response, download_option, downloaded_items, item_type, down
             save_downloaded_items(downloaded_items)
 
 # Ask the user for their API key
-api_key = input("Please enter your API key: ")
+while True:
+    api_key = input("Please enter your API key: ")
 
-# Your API key
-headers = {
-    'Authorization': api_key
-}
+    # Your API key
+    headers = {
+        'Authorization': api_key
+    }
+
+    # Verify API key
+    response = requests.get('https://api.pexels.com/v1/search', headers=headers)
+    if response.status_code == 401:
+        print("Invalid API key. Please check your API key and try again.")
+    else:
+        break
 
 # Ask the user what they want to download
 download_option = input("Do you want to download items? (yes/no): ")
